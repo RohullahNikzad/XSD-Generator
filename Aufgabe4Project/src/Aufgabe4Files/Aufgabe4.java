@@ -48,7 +48,7 @@ public class Aufgabe4 {
 				}
 			};
 
-			 File[] directoryListing = directory.listFiles(fileFilter);    //list all the files with .xsd extension in directoryListing
+			    File[] directoryListing = directory.listFiles(fileFilter);    //list all the files with .xsd extension in directoryListing
 
                 if(!directory.canRead()) {
                 	System.out.println("The following directories do not exist: "+  directory.getName());
@@ -81,13 +81,13 @@ public class Aufgabe4 {
 
                     // check if the files already exist in output folder if so, then delete them all
 
-	 				   for(File existedfile: pathAsFile.listFiles()) {
+	 				     for(File existedfile: pathAsFile.listFiles()) {
 	 			        	 if(!existedfile.isDirectory()) {
 	 							existedfile.delete();
 	 						}
 	 			         }
 
-	 				  	 Copy.copy(file,new File(output + "\\" + file.getName()));
+	 				  	  Copy.copy(file,new File(output + "\\" + file.getName()));
 
 				}
 		 }
@@ -105,7 +105,7 @@ public class Aufgabe4 {
 
 	public static File creationOfDocumentXsdFile(File file, String output) {
 
-		File dest = null;
+		  File dest = null;
 		  try {
 		  List<String>  allLines = Files.readAllLines(Paths.get(file.toString()));
           for(String line : allLines) {
@@ -118,14 +118,13 @@ public class Aufgabe4 {
                          String[] splittedFileName = fileName.split("\\.xsd");
 			   	         String desiredName = splittedFileName[0] +  "-document" + ".xsd" ;
 
-				   	      File desiredFileName = new File(desiredName);
-				   	      String pathdest = desiredFileName.getAbsolutePath();
-				   	      dest = new File(pathdest);
-				   	       System.out.println(desiredName);
+				   	     File desiredFileName = new File(desiredName);
+				   	     String pathdest = desiredFileName.getAbsolutePath();
+				   	     dest = new File(pathdest);
+				   	      System.out.println(desiredName);
 
-
-				   	       BufferedReader br = new BufferedReader(new FileReader(file));
-		     			   BufferedWriter bw = new BufferedWriter(new FileWriter(dest));
+				   	      BufferedReader br = new BufferedReader(new FileReader(file));
+		     			  BufferedWriter bw = new BufferedWriter(new FileWriter(dest));
 
 						   while ((pathdest = br.readLine())!=null) {
 
@@ -185,7 +184,7 @@ public class Aufgabe4 {
 	  	    		 line = line.replaceAll("filename1", splittedfileName[1]);
 	  	    	 }
 
-	  	    	  if(line.contains("xmlns=\"http://www.innovas.de/xmlns/filename0/v1.0/filename1\"")) {
+	  	    	 if(line.contains("xmlns=\"http://www.innovas.de/xmlns/filename0/v1.0/filename1\"")) {
 
 	  	    		 line = line.replaceAll("filename0", splittedfileName[0]);
 	  	    		 line = line.replaceAll("filename1", splittedfileName[1]);
@@ -215,7 +214,7 @@ public class Aufgabe4 {
 
 		  //copy the contents of source file  to temp file
 
-	         String file2Path = file2.getAbsolutePath();
+	        String file2Path = file2.getAbsolutePath();
 	  	  try {
 
 	  	    String tempFile  = "temp.xsd";
