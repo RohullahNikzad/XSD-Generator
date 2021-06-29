@@ -14,8 +14,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+
+
 public class Aufgabe4 {
-	final protected static String outDirectory = "C:/Users/nikzar/Desktop/Xsd-generated";
+
+	final protected static String outDirectory = "inputAndOutputFolder\\xsd-generated";
 
 
 	private static final Logger Log = Logger.getLogger(Aufgabe4.class);
@@ -38,24 +41,17 @@ public class Aufgabe4 {
 
 		 for(String string: data)
 		 {
+			 //filteringXsdFiles( string, filter );
 
 			 File directory = new File(string );
-			 FileFilter fileFilter = new FileFilter() {         // using fileFilter to filter out only .xsd files
-
-				@Override
-				public boolean accept(File pathname) {
-					return ! pathname.isDirectory() &&  pathname.getName().endsWith(filter);
-				}
-			};
-
-			    File[] directoryListing = directory.listFiles(fileFilter);    //list all the files with .xsd extension in directoryListing
+			 File[] dirListing =  filteringXsdFiles( directory,filter);
 
                 if(!directory.canRead()) {
                 	System.out.println("The following directories do not exist: "+  directory.getName());
                 }
 
 
-           loop:    for(File file: directoryListing) {
+             for(File file: dirListing) {
 
 
 					 System.out.println("files are:" + file.toString());
@@ -63,23 +59,23 @@ public class Aufgabe4 {
 					 File dest = creationOfDocumentXsdFile(file, output);
 
 					         if(dest == null) {
-					        	 continue loop;
+					        	 continue ;
 					         }
 
 
-				  	     Path tempfile =  Paths.get("C:\\Users\\nikzar\\Desktop\\tempfile.xsd");  // temporary file to store the contents of the external file
+				  	     Path tempfile =  Paths.get("inputAndOutputFolder\\tempfile.xsd");  // temporary file to store the contents of the external file
 				  	     String  ss =  tempfile.toString();                                             // for further configuration
 				  	     File tempFileName = new File(ss);
 				  	     tempFileName.getAbsolutePath();
 
 				  	     externalFileConfigurationToDesiredFile(file, tempFileName);
 
-				  	     swapFilesContents(dest, tempFileName);
+				  	     copyingContentsOfSourceToDest(dest, tempFileName);
 
-				             Copy.copy(dest ,new File(output + "\\" + dest.getName()));
+				         Copy.copy(dest ,new File(output + "\\" + dest.getName()));
 
 
-                    // check if the files already exist in output folder if so, then delete them all
+                        // check if the files already exist in output folder if so, then delete them all
 
 	 				     for(File existedfile: pathAsFile.listFiles()) {
 	 			        	 if(!existedfile.isDirectory()) {
@@ -116,7 +112,7 @@ public class Aufgabe4 {
 
                          String fileName = file.getName();
                          String[] splittedFileName = fileName.split("\\.xsd");
-			   	         String desiredName = splittedFileName[0] +  "-document" + ".xsd" ;
+			   	         String desiredName = splittedFileName[0] +  "-document" + ".xsd";
 
 				   	     File desiredFileName = new File(desiredName);
 				   	     String pathdest = desiredFileName.getAbsolutePath();
@@ -133,15 +129,16 @@ public class Aufgabe4 {
 						     bw.flush();
 						     }
 
-                        }else {
+                        }else if(!line.contains("<xs:element name=\"data\">")) {
 
-	    	              if(line.contains("</xs:schema>")) {
+	    	               if(line.contains("</xs:schema>")) {
 
 	    	               Copy.copy(file,new File(output + "\\" + file.getName()));
 
 	    	              }
 	    	   }
               }
+          //Copy.copy(file,new File(output + "\\" + file.getName()));
 
 
 		  }catch(Exception e ) {
@@ -158,7 +155,7 @@ public class Aufgabe4 {
 		 String[] splittedfileName = filename.split("\\-");
 
 
-		 Path filesPath = Paths.get("C:\\Users\\nikzar\\Desktop\\configurationfile.xsd");
+		 Path filesPath = Paths.get("inputAndOutputFolder\\configurationfile.xsd");
   	     String  s =  filesPath.toString();
   	     File fileName = new File(s);
 
@@ -210,7 +207,7 @@ public class Aufgabe4 {
 
 	}
 
-	public static void swapFilesContents(File file1 , File file2 ) {
+	public static void copyingContentsOfSourceToDest(File file1 , File file2 ) {
 
 		  //copy the contents of source file  to temp file
 
@@ -248,6 +245,24 @@ public class Aufgabe4 {
 	  	     }
 
 	        }
+
+
+	public static File[] filteringXsdFiles(File directory, String filter) {
+
+
+
+		 FileFilter fileFilter = new FileFilter() {         // using fileFilter to filter out only .xsd files
+
+			@Override
+			public boolean accept(File pathname) {
+				return ! pathname.isDirectory() &&  pathname.getName().endsWith(filter);
+			}
+		};
+
+		    File[] directoryListing = directory.listFiles(fileFilter);    //list all the files with .xsd extension in directoryListing
+			return directoryListing;
+
+	}
 
 		}
 

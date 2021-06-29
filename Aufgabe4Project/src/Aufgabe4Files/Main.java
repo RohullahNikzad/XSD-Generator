@@ -4,7 +4,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		String dirInput = "C:/Users/nikzar/Desktop/Aufgabe4.txt";
+		String dirInput = "inputAndOutputFolder/input.txt";
 
 		String outputDir = Aufgabe4.outDirectory;
 		String filter= ".xsd";
